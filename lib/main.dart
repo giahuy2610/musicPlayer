@@ -26,10 +26,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('rebuild my app');
     return MaterialApp(
         title: 'Music App',
         debugShowCheckedModeBanner: false,
-        themeMode: context.watch<Control>().isDarkMode_
+        themeMode: context.select<Control, bool>((a) => a.isDarkMode_)
             ? ThemeMode.dark
             : ThemeMode.light,
         theme: ThemeData(
@@ -57,7 +58,6 @@ class MyApp extends StatelessWidget {
         // )),
         home: Stack(children: [
           const MyHomePage(),
-          const SearchingOverlay(),
         ]));
   }
 }
@@ -78,30 +78,6 @@ class SearchBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Container(color: Colors.red, child: Text('search box')));
-  }
-}
-
-class SearchingOverlay extends StatelessWidget {
-  const SearchingOverlay({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: Loader.appLoader.loaderShowingNotifier,
-      builder: (context, value, child) {
-        if (value) {
-          return Container(
-            padding: const EdgeInsets.all(10),
-            constraints: const BoxConstraints(maxWidth: 500),
-            child: SearchBox(),
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
   }
 }
 
@@ -297,10 +273,12 @@ class _MyHomePageState extends State<MyHomePage>
               },
             ),
             ListTile(
-              leading: context.watch<Control>().isLogIn
+              leading: context.select<Control, bool>((a) => a.isLogIn)
                   ? const Icon(Icons.logout_rounded)
                   : const Icon(Icons.login_rounded),
-              title: context.watch<Control>().isLogIn ? const Text('Log out'): const Text('Log in'),
+              title: context.select<Control, bool>((a) => a.isLogIn)
+                  ? const Text('Log out')
+                  : const Text('Log in'),
               onTap: () {
                 // Update the state of the app
                 // ...
@@ -317,7 +295,7 @@ class _MyHomePageState extends State<MyHomePage>
       appBar: AppBar(
           elevation: 0,
           leading: IconButton(
-              icon: context.watch<Control>().isZoomIn
+              icon: context.select<Control, bool>((a) => a.isZoomIn_)
                   ? const Icon(Icons.arrow_back_ios_new_outlined)
                   : const Icon(Icons.menu_rounded),
               onPressed: () => {

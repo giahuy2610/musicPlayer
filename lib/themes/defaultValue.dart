@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import '../providers/control.dart';
 
-class PrimaryMode {
+class PrimaryMode {}
 
-}
-
-class DarkMode {
-
-}
+class DarkMode {}
 
 class DefaultValue {
   static var screenWidth =

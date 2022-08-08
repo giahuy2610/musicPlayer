@@ -35,7 +35,10 @@ class AudioControl extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: context.watch<Control>().player.volume == 0.0 ? const FaIcon(FontAwesomeIcons.volumeXmark) : const FaIcon(FontAwesomeIcons.volumeHigh),
+              icon:
+                  context.select<Control, double>((a) => a.player.volume) == 0.0
+                      ? const FaIcon(FontAwesomeIcons.volumeXmark)
+                      : const FaIcon(FontAwesomeIcons.volumeHigh),
               onPressed: () {
                 context.read<Control>().changeVolume();
               },
@@ -45,7 +48,7 @@ class AudioControl extends StatelessWidget {
               onPressed: () {},
             ),
             IconButton(
-              icon: context.watch<Control>().player.playing
+              icon: context.select<Control, bool>((a) => a.player.playing)
                   ? const Icon(Icons.pause_circle_filled_rounded)
                   : const Icon(Icons.play_arrow),
               onPressed: () {
@@ -57,7 +60,15 @@ class AudioControl extends StatelessWidget {
               onPressed: () {},
             ),
             IconButton(
-              icon: context.watch<Control>().player.loopMode.toString() == 'LoopMode.off' ? const FaIcon(FontAwesomeIcons.repeat, color: Colors.grey) : (context.watch<Control>().player.loopMode.toString() == 'LoopMode.all' ? const FaIcon(FontAwesomeIcons.repeat) : const FaIcon(FontAwesomeIcons.arrowRotateRight)),
+              icon: context.select<Control, String>(
+                          (a) => a.player.loopMode.toString()) ==
+                      'LoopMode.off'
+                  ? const FaIcon(FontAwesomeIcons.repeat, color: Colors.grey)
+                  : (context.select<Control, String>(
+                              (a) => a.player.loopMode.toString()) ==
+                          'LoopMode.all'
+                      ? const FaIcon(FontAwesomeIcons.repeat)
+                      : const FaIcon(FontAwesomeIcons.arrowRotateRight)),
               onPressed: () {
                 //change looping status
                 context.read<Control>().changeLoop(context);

@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-
 class Song {
   static const songResourcePrefix =
       'https://apizingmp3.herokuapp.com/api/song?id={';
@@ -21,6 +20,10 @@ class Song {
   var hasLyric;
   var rawLyricData;
   var lyric;
+  var keyPlayListBelongTo;
+  // encode of playlist which included this song
+  // If this song is result of a search event, keyPlayListBelongTo is 'searchResult'
+  // else if this song in storage, key in time is 'offlineSong'
 
   Song(
       {this.name,
@@ -31,7 +34,8 @@ class Song {
       this.isFavorite,
       this.lyrics,
       this.duration,
-      this.hasLyric}) {
+      this.hasLyric,
+      this.keyPlayListBelongTo}) {
     this.songResourceRequestTo =
         songResourcePrefix + (name == null ? '' : code) + songResourceSubfix;
   }
@@ -39,7 +43,6 @@ class Song {
   //request to api to get mp3 source
   Future<bool> fetchPlayList() async {
     final response = await http.get(Uri.parse(songResourceRequestTo));
-
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -52,9 +55,8 @@ class Song {
             timeInSecForIosWeb: 12,
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 13.0
-        );
-          print(jsonDecode(response.body)['msg']);
+            fontSize: 13.0);
+        print(jsonDecode(response.body)['msg']);
         return false;
       }
 
@@ -67,8 +69,4 @@ class Song {
       throw Exception('Failed to load playlist');
     }
   }
-
-
 }
-
-

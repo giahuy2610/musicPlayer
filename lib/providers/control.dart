@@ -9,26 +9,37 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class Control extends ChangeNotifier {
-  //bool _isPlaying = false;
-  //bool get isPlaying => _isPlaying;
   Song _currentSong = Song();
   Song get currentSong => _currentSong;
+
   final _player = AudioPlayer();
   get player => _player;
+
   int currentMiliseconds_ = 0;
   int get currentMiliseconds => currentMiliseconds_;
-  String normalLyric_ = """""";
-  String advancedLyric = """""";
+
+  String normalLyric_ = """"""; //the lyric which lower degree of accuracy
+  String advancedLyric =
+      """"""; //the lyric which higher degree of accuracy, accuracy to per word by second
   get normalLyric => normalLyric_;
   set SetNormalLyric(String value) => this.normalLyric_ = value;
+
   bool isZoomIn_ = false;
   get isZoomIn => this.isZoomIn_;
+
   bool isDarkMode_ = false;
   get isDartMode => this.isDarkMode_;
 
   bool isLogIn = false;
 
+  //storing playlist
+  var currentPlayList_; //store current playlist which has a song is playing
+  get currentPlayList => currentPlayList_;
 
+  void changeCurrentPlayList(var value) {
+    currentPlayList_ = value;
+    notifyListeners();
+  }
 
   final progressNotifier = ValueNotifier<ProgressBarState>(
     ProgressBarState(
@@ -55,7 +66,6 @@ class Control extends ChangeNotifier {
       //get mp3
       await _currentSong.fetchPlayList();
       //get lyric if have
-      print(_currentSong.hasLyric);
       _currentSong.hasLyric == true ? fetchLyric(_currentSong.code) : false;
 
       await _player.setAudioSource(
@@ -157,8 +167,8 @@ class Control extends ChangeNotifier {
 
   void changeVolume() {
     if (_player.volume == 100.0)
-    //   _player.setVolume(50.0);
-    // else if (_player.volume == 50.0)
+      //   _player.setVolume(50.0);
+      // else if (_player.volume == 50.0)
       _player.setVolume(0.0);
     else
       _player.setVolume(100.0);
@@ -189,7 +199,7 @@ class Control extends ChangeNotifier {
   }
 
   void changeZoomInToFalse() {
-    this.isZoomIn_ =false;
+    this.isZoomIn_ = false;
     notifyListeners();
   }
 
@@ -203,7 +213,6 @@ class Control extends ChangeNotifier {
     final response = await http
         .get(Uri.parse('https://apizingmp3.herokuapp.com/api/lyric?id={$key}'));
 
-
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -216,7 +225,8 @@ class Control extends ChangeNotifier {
 [offset:0]
 """;
       var sentenceStrAdvancedLyric = sentenceStr;
-      int lastTime = -1;//time(miliseconds) of the last word of the previous sentence
+      int lastTime =
+          -1; //time(miliseconds) of the last word of the previous sentence
       for (final e in temp) {
         var x = e['words'];
         if (lastTime > -1 && x[0]['startTime'] == lastTime) {
@@ -227,10 +237,11 @@ class Control extends ChangeNotifier {
 
         for (final w in x) {
           sentenceStr += w['data'] + " ";
-          sentenceStrAdvancedLyric += '(${w['startTime']},${w['endTime']})${w['data']} ';
+          sentenceStrAdvancedLyric +=
+              '(${w['startTime']},${w['endTime']})${w['data']} ';
         }
 
-        lastTime =  x[x.length - 1]['endTime'].toInt();
+        lastTime = x[x.length - 1]['endTime'].toInt();
         sentenceStr += '\n';
       }
       this.normalLyric_ = sentenceStr;

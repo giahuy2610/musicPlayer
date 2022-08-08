@@ -21,7 +21,7 @@ class _PlayerState extends State<Player> {
     return GestureDetector(
       onTap: () {
         if (!context.read<Control>().isZoomIn_)
-        context.read<Control>().changeZoomInToTrue();
+          context.read<Control>().changeZoomInToTrue();
       },
       child: AnimatedContainer(
           constraints: BoxConstraints(
@@ -36,7 +36,11 @@ class _PlayerState extends State<Player> {
               left: 20,
               right: 20),
           decoration: BoxDecoration(
-            borderRadius: context.watch<Control>().isZoomIn ? BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0)) : BorderRadius.circular(20.0),
+            borderRadius: context.watch<Control>().isZoomIn
+                ? BorderRadius.only(
+                    topRight: Radius.circular(20.0),
+                    topLeft: Radius.circular(20.0))
+                : BorderRadius.circular(20.0),
             color: DefaultValue.backgroundColorPlayer,
             boxShadow: [
               BoxShadow(

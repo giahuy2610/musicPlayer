@@ -20,21 +20,24 @@ class LyricDisplay extends StatelessWidget {
   var lyricUI = UINetease();
 
   @override
-  Widget build(BuildContext context){
-    print('crr' + context.watch<Control>().currentMiliseconds.toString());
+  Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 700),
       width: DefaultValue.screenWidth,
       constraints: BoxConstraints(
-        maxHeight: context.watch<Control>().isZoomIn_ ? DefaultValue.screenHeight*0.35 : 45
-      ),
+          maxHeight: context.select<Control, bool>((a) => a.isZoomIn)
+              ? DefaultValue.screenHeight * 0.35
+              : 45),
       //padding: EdgeInsets.all(2),
-      decoration: BoxDecoration(color: Colors.deepPurple,borderRadius: BorderRadius.all(Radius.circular(15))),
+      decoration: BoxDecoration(
+          color: Colors.deepPurple,
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       child: LyricsReader(
         model: LyricsModelBuilder.create()
-            .bindLyricToMain(context.watch<Control>().normalLyric)
+            .bindLyricToMain(
+                context.select<Control, String>((a) => a.normalLyric))
             .getModel(),
-        position: context.watch<Control>().currentMiliseconds,
+        position: context.select<Control, int>((a) => a.currentMiliseconds),
         lyricUi: lyricUI,
         playing: playing,
         size: Size(double.infinity, MediaQuery.of(context).size.height / 2),
@@ -44,12 +47,7 @@ class LyricDisplay extends StatelessWidget {
             style: lyricUI.getOtherMainTextStyle(),
           ),
         ),
-      )
-
-
-      ,
+      ),
     );
   }
-
 }
-

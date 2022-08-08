@@ -52,7 +52,6 @@ class _searchingDialog extends State<searchingDialog> {
                 ? FutureBuilder<PlayList>(
                     future: fetchPlayListMatchedBySearch(this.key),
                     builder: (context, snapshot) {
-
                       if (snapshot.hasData) {
                         return Container(
                           color: Colors.white,

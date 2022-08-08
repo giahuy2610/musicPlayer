@@ -3,9 +3,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
-
-
 class PlayList {
   var name;
   var code;
@@ -30,14 +27,12 @@ class PlayList {
     List<Song> tempSongInList = List<Song>.empty(growable: true);
     for (final e in temp) {
       tempSongInList.add(Song(
-        name: e['title'],
-        code: e['encodeId'],
-        artists: e['artistsNames'],
-        coverImage: e['thumbnail'],
-        duration: e['duration'],
-        hasLyric: e['hasLyric']
-      ));
-
+          name: e['title'],
+          code: e['encodeId'],
+          artists: e['artistsNames'],
+          coverImage: e['thumbnail'],
+          duration: e['duration'],
+          hasLyric: e['hasLyric']));
     }
     return PlayList(
       name: json['data']['title'],
@@ -51,13 +46,12 @@ class PlayList {
     List<Song> tempSongInList = List<Song>.empty(growable: true);
     for (final e in temp) {
       tempSongInList.add(Song(
-        name: e['title'],
-        code: e['encodeId'],
-        artists: e['artistsNames'],
-        coverImage: e['thumbnail'],
-        duration: e['duration'],
-          hasLyric: e['hasLyric']
-      ));
+          name: e['title'],
+          code: e['encodeId'],
+          artists: e['artistsNames'],
+          coverImage: e['thumbnail'],
+          duration: e['duration'],
+          hasLyric: e['hasLyric']));
     }
     return PlayList(
       name: 'The matched playlist by search',
@@ -68,11 +62,7 @@ class PlayList {
 
   //revert lyric json respopnse to data
 
-
-
 }
-
-
 
 Future<PlayList> fetchPlayList(String key) async {
   final response = await http.get(Uri.parse(
@@ -90,8 +80,8 @@ Future<PlayList> fetchPlayList(String key) async {
 }
 
 Future<PlayList> fetchPlayListMatchedBySearch(String key) async {
-  final response = await http.get(Uri.parse('https://apizingmp3.herokuapp.com/api/search?keyword={$key}'));
-
+  final response = await http.get(
+      Uri.parse('https://apizingmp3.herokuapp.com/api/search?keyword={$key}'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -103,9 +93,3 @@ Future<PlayList> fetchPlayListMatchedBySearch(String key) async {
     throw Exception('Failed to load playlist');
   }
 }
-
-
-
-
-
-

@@ -16,8 +16,12 @@ class SongCoverDiscover extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
             onTap: () {
-              print("tap on cover song discovery " + this.songDetail_.name + ', code: ' + this.songDetail_.code);
+              print("tap on cover song discovery " +
+                  this.songDetail_.name +
+                  ', code: ' +
+                  this.songDetail_.code);
               context.read<Control>().changeSong(this.songDetail_);
+              //context.read<Control>().changeCurrentPlayList();
             },
             child: Container(
               width: DefaultValue.screenWidth * 0.2,

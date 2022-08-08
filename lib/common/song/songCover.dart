@@ -8,8 +8,9 @@ class SongCover extends StatelessWidget {
   Widget build(BuildContext context) {
     String temp =
         'https://img.freepik.com/premium-vector/simple-cartoon-disk-icon_576934-18.jpg';
-    if (context.watch<Control>().currentSong.name != null) {
-      temp = context.watch<Control>().currentSong.coverImage;
+    if (context.select<Control, String?>((a) => a.currentSong.coverImage) !=
+        null) {
+      temp = context.select<Control, String>((a) => a.currentSong.coverImage);
     }
 
     return Container(

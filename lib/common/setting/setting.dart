@@ -7,39 +7,39 @@ import './settingItem.dart';
 class Setting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(),
-      ),
+        appBar: AppBar(
+          leading: BackButton(),
+        ),
         body: Container(
-      width: DefaultValue.screenWidth,
-      height: DefaultValue.screenHeight * 0.75,
-      color: Colors.brown,
-      child: ListView(children: [
-        SettingItem(
-          'Enable dark mode',
-          Switch(
-              value: context.watch<Control>().isDarkMode_,
-              onChanged: (value) {
-                context.read<Control>().changeDarkMode(value);
-              }),
-        ),
-        SettingItem(
-          'Enable dark mode',
-          Switch(
-              value: context.watch<Control>().isDarkMode_,
-              onChanged: (value) {
-                context.read<Control>().changeDarkMode(value);
-              }),
-        ),
-        SettingItem(
-          'Enable dark mode',
-          Switch(
-              value: context.watch<Control>().isDarkMode_,
-              onChanged: (value) {
-                context.read<Control>().changeDarkMode(value);
-              }),
-        )
-      ]),
-    ));
+          width: DefaultValue.screenWidth,
+          height: DefaultValue.screenHeight * 0.75,
+          color: Colors.brown,
+          child: ListView(children: [
+            SettingItem(
+              'Enable dark mode',
+              Switch(
+                  value: context.watch<Control>().isDarkMode_,
+                  onChanged: (value) {
+                    context.read<Control>().changeDarkMode(value);
+                  }),
+            ),
+            SettingItem(
+              'Enable dark mode',
+              Switch(
+                  value: context.watch<Control>().isDarkMode_,
+                  onChanged: (value) {
+                    context.read<Control>().changeDarkMode(value);
+                  }),
+            ),
+            SettingItem(
+              'Enable dark mode',
+              Switch(
+                  value: context.watch<Control>().isDarkMode_,
+                  onChanged: (value) {
+                    context.read<Control>().changeDarkMode(value);
+                  }),
+            )
+          ]),
+        ));
   }
 }
