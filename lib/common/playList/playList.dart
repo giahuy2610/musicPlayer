@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+
 import '../../common/song/song.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../providers/control.dart';
 
 class PlayList {
   var name;
@@ -21,6 +24,8 @@ class PlayList {
       this.description,
       this.createdOn,
       required this.songsInList});
+
+
 
   factory PlayList.fromJson(Map<String, dynamic> json) {
     var temp = json['data']['song']['items'];
@@ -93,3 +98,4 @@ Future<PlayList> fetchPlayListMatchedBySearch(String key) async {
     throw Exception('Failed to load playlist');
   }
 }
+

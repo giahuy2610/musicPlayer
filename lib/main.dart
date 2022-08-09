@@ -9,7 +9,6 @@ import './common/playList/playListContainer.dart';
 import './common/song/songCover.dart';
 import 'package:provider/provider.dart';
 import './providers/control.dart';
-import './common/loader/loader.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,7 +25,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('rebuild my app');
     return MaterialApp(
         title: 'Music App',
         debugShowCheckedModeBanner: false,
@@ -92,9 +90,9 @@ class DiscoveryScrollPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PlayListDislay(keyPlaylist: 'ZWZB969E'),
-          PlayListDislay(keyPlaylist: 'ZWZB969F'),
-          PlayListDislay(keyPlaylist: 'ZWZB96C8')
+          PlayListDislay(key: GlobalKey(), keyPlaylist: 'ZWZB969E'),
+          PlayListDislay(key: GlobalKey(), keyPlaylist: 'ZWZB969F'),
+          PlayListDislay(key: GlobalKey(), keyPlaylist: 'ZWZB96C8')
         ],
       ),
     )));
@@ -198,14 +196,8 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   context.read<Control>().init;
-  // }
-
-  @override
   Widget build(BuildContext context) {
+    print('rebuild my app');
     return Scaffold(
       key: _scaffoldKey,
       drawer: Container(
@@ -295,9 +287,7 @@ class _MyHomePageState extends State<MyHomePage>
       appBar: AppBar(
           elevation: 0,
           leading: IconButton(
-              icon: context.select<Control, bool>((a) => a.isZoomIn_)
-                  ? const Icon(Icons.arrow_back_ios_new_outlined)
-                  : const Icon(Icons.menu_rounded),
+              icon: const Icon(Icons.arrow_back_ios_new_outlined),
               onPressed: () => {
                     if (!context.read<Control>().isZoomIn)
                       _scaffoldKey.currentState?.openDrawer(),

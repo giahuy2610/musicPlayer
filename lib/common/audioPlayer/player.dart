@@ -69,10 +69,12 @@ class _PlayerState extends State<Player> {
                               .toUpperCase(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                         //fontFamily:
-                      )),
+                      ),
+                  softWrap: false,
+                      overflow: TextOverflow.ellipsis,),
                   Text(
                     context.watch<Control>().currentSong.artists == null
                         ? 'ARTISTS'

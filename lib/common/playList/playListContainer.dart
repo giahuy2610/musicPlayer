@@ -6,10 +6,13 @@ import '../../providers/control.dart';
 
 class PlayListDislay extends StatefulWidget {
   final keyPlaylist;
-  const PlayListDislay({Key? key, required this.keyPlaylist}) : super(key: key);
+  Key? globalKeyPlayList;
+  PlayListDislay({Key? key, required this.keyPlaylist}) : super(key: key) {
+    this.globalKeyPlayList = key;
+  }
 
   @override
-  State<PlayListDislay> createState() => _PlayListDislay(this.keyPlaylist);
+  State<PlayListDislay> createState() => _PlayListDislay(this.keyPlaylist, this.globalKeyPlayList);
 }
 
 class _PlayListDislay extends State<PlayListDislay> {
@@ -26,7 +29,9 @@ class _PlayListDislay extends State<PlayListDislay> {
   var isLoading; //loading state
   var temp; //
 
-  _PlayListDislay(this.keyPlaylist);
+  Key? globalKeyPlayList;
+
+  _PlayListDislay(this.keyPlaylist, this.globalKeyPlayList);
 
   @override
   void initState() {
@@ -84,7 +89,7 @@ class _PlayListDislay extends State<PlayListDislay> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
                 snapshot.data!.name,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               SingleChildScrollView(
                   controller: _sc,
@@ -95,12 +100,15 @@ class _PlayListDislay extends State<PlayListDislay> {
                         children: [
                           SongCoverDiscover(
                               songDetail_: Song(
-                                  name: song.name,
-                                  code: song.code,
-                                  artists: song.artists,
-                                  coverImage: song.coverImage,
-                                  hasLyric: song.hasLyric,
-                                  keyPlayListBelongTo: this.keyPlaylist)),
+                                name: song.name,
+                                code: song.code,
+                                artists: song.artists,
+                                coverImage: song.coverImage,
+                                hasLyric: song.hasLyric,
+                                keyPlayListBelongTo: this.keyPlaylist,
+                              ),
+                            globalKeyPlayList: this.globalKeyPlayList,
+                              ),
 
                           //Text(song.name)
                         ],

@@ -7,8 +7,9 @@ import './song.dart';
 class SongCoverDiscover extends StatelessWidget {
   Song songDetail_ = Song();
   get songDetail => songDetail_;
+  var globalKeyPlayList;
 
-  SongCoverDiscover({required this.songDetail_});
+  SongCoverDiscover({required this.songDetail_, this.globalKeyPlayList});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,8 @@ class SongCoverDiscover extends StatelessWidget {
                   ', code: ' +
                   this.songDetail_.code);
               context.read<Control>().changeSong(this.songDetail_);
-              //context.read<Control>().changeCurrentPlayList();
+              context.read<Control>().changeCurrentPlayList(
+                  this.globalKeyPlayList!.currentState.temp);
             },
             child: Container(
               width: DefaultValue.screenWidth * 0.2,

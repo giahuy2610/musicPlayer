@@ -45,7 +45,9 @@ class AudioControl extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.arrow_back_ios_new_rounded),
-              onPressed: () {},
+              onPressed: () {
+                context.read<Control>().changePreviousSong();
+              },
             ),
             IconButton(
               icon: context.select<Control, bool>((a) => a.player.playing)
@@ -57,7 +59,9 @@ class AudioControl extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios_rounded),
-              onPressed: () {},
+              onPressed: () {
+                context.read<Control>().changeNextSong();
+              },
             ),
             IconButton(
               icon: context.select<Control, String>(

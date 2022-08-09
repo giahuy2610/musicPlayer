@@ -193,6 +193,24 @@ class Control extends ChangeNotifier {
     notifyListeners();
   }
 
+  void changeNextSong() {
+    var temp = this
+            .currentPlayList_
+            .indexWhere((e) => e.code == this.currentSong.code) +
+        1;
+    changeSong(
+        this.currentPlayList_[temp != this.currentPlayList_.length ? temp : 0]);
+  }
+
+  void changePreviousSong() {
+    var temp = this
+            .currentPlayList_
+            .indexWhere((e) => e.code == this.currentSong.code) -
+        1;
+    changeSong(this
+        .currentPlayList_[temp >= 0 ? temp : this.currentPlayList_.length - 1]);
+  }
+
   void changeZoomInToTrue() {
     this.isZoomIn_ = true;
     notifyListeners();
