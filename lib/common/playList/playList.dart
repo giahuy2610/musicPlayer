@@ -25,8 +25,6 @@ class PlayList {
       this.createdOn,
       required this.songsInList});
 
-
-
   factory PlayList.fromJson(Map<String, dynamic> json) {
     var temp = json['data']['song']['items'];
     List<Song> tempSongInList = List<Song>.empty(growable: true);
@@ -98,4 +96,3 @@ Future<PlayList> fetchPlayListMatchedBySearch(String key) async {
     throw Exception('Failed to load playlist');
   }
 }
-

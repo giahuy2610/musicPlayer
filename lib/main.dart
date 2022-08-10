@@ -13,6 +13,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import './common/setting/setting.dart';
+import './common/drawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,14 +70,6 @@ class ProgressBarState {
   final Duration current;
   final Duration buffered;
   final Duration total;
-}
-
-class SearchBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Container(color: Colors.red, child: Text('search box')));
-  }
 }
 
 //DiscoveryScrollPage
@@ -136,63 +129,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
-  late Future<void> futurePlayer;
+    with
+        SingleTickerProviderStateMixin // with SingleTickerProviderStateMixin to get vsync used in animation controller
+{
   late AnimationController controller;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  Future downloader(String url) async {
-    var status = await Permission.storage.request();
-    if (status.isGranted) {
-      final baseStorage = await getExternalStorageDirectory();
-      print('local path is ' + baseStorage!.path.toString());
-
-      await FlutterDownloader.enqueue(
-        fileName: context.read<Control>().currentSong.name,
-        url: url,
-        savedDir: baseStorage.path,
-        saveInPublicStorage: true,
-        showNotification:
-            true, // show download progress in status bar (for Android)
-        openFileFromNotification:
-            true, // click on notification to open downloaded file (for Android)
-      );
-    }
-  }
-
-  ReceivePort _port = ReceivePort();
+  final GlobalKey<ScaffoldState> _scaffoldKey =
+      new GlobalKey<ScaffoldState>(); //using make drawer
 
   @override
   void initState() {
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
-      setState(() {});
-    });
-
-    FlutterDownloader.registerCallback(downloadCallback);
-    super.initState();
-    context.read<Control>().init;
-
     this.controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-  }
-
-  @override
-  void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-    super.dispose();
-  }
-
-  @pragma('vm:entry-point')
-  static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
-    final SendPort? send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
   }
 
   @override
@@ -200,88 +147,7 @@ class _MyHomePageState extends State<MyHomePage>
     print('rebuild my app');
     return Scaffold(
       key: _scaffoldKey,
-      drawer: Container(
-        width: DefaultValue.drawerWidth,
-        child: Drawer(
-            child: ListView(
-          children: [
-            Container(
-              //height: DefaultValue.screenHeight * 0.3,
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.lightBlue.shade300,
-                    offset: const Offset(
-                      -10,
-                      5,
-                    ),
-                    blurRadius: 10.0,
-                    spreadRadius: 0.1,
-                  ), //BoxShadow
-                ],
-              ),
-              child: Stack(children: [
-                Image.network(
-                  'https://mcdn.wallpapersafari.com/medium/12/93/Ei0zCM.jpg',
-                  fit: BoxFit.cover,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(right: 15.0),
-                      decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular((505555)))),
-                      child: Text(
-                        'ND',
-                        style: TextStyle(color: Colors.white, fontSize: 20.0),
-                      ),
-                    ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text('UserName'), Text('PremiumAccount')])
-                  ],
-                )
-              ]),
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Setting'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  // do something
-                  return Setting();
-                }));
-              },
-            ),
-            ListTile(
-              leading: context.select<Control, bool>((a) => a.isLogIn)
-                  ? const Icon(Icons.logout_rounded)
-                  : const Icon(Icons.login_rounded),
-              title: context.select<Control, bool>((a) => a.isLogIn)
-                  ? const Text('Log out')
-                  : const Text('Log in'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            )
-          ],
-        ) // Populate the Drawer in the next step.
-            ),
-      ),
+      drawer: DrawerContainer(),
       resizeToAvoidBottomInset: false,
       backgroundColor: DefaultValue.backgroundColorDefault,
       appBar: AppBar(

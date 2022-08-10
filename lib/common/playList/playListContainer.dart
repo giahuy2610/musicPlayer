@@ -12,7 +12,8 @@ class PlayListDislay extends StatefulWidget {
   }
 
   @override
-  State<PlayListDislay> createState() => _PlayListDislay(this.keyPlaylist, this.globalKeyPlayList);
+  State<PlayListDislay> createState() =>
+      _PlayListDislay(this.keyPlaylist, this.globalKeyPlayList);
 }
 
 class _PlayListDislay extends State<PlayListDislay> {
@@ -99,16 +100,16 @@ class _PlayListDislay extends State<PlayListDislay> {
                       Column(
                         children: [
                           SongCoverDiscover(
-                              songDetail_: Song(
-                                name: song.name,
-                                code: song.code,
-                                artists: song.artists,
-                                coverImage: song.coverImage,
-                                hasLyric: song.hasLyric,
-                                keyPlayListBelongTo: this.keyPlaylist,
-                              ),
+                            songDetail_: Song(
+                              name: song.name,
+                              code: song.code,
+                              artists: song.artists,
+                              coverImage: song.coverImage,
+                              hasLyric: song.hasLyric,
+                              keyPlayListBelongTo: this.keyPlaylist,
+                            ),
                             globalKeyPlayList: this.globalKeyPlayList,
-                              ),
+                          ),
 
                           //Text(song.name)
                         ],

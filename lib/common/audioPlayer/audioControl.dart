@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:untitled/main.dart';
 import 'package:provider/provider.dart';
 import '../../providers/control.dart';
+import '../download.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 //audio control
 
 class AudioControl extends StatelessWidget {
@@ -34,6 +36,7 @@ class AudioControl extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            DownloadButton(),
             IconButton(
               icon:
                   context.select<Control, double>((a) => a.player.volume) == 0.0

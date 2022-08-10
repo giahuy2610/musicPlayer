@@ -15,12 +15,13 @@ class Song {
   var songResourceRequestTo;
   var songResource;
   var lyrics;
-  var isFavorite;
+  var isFavorite = false;
   var duration;
   var hasLyric;
   var rawLyricData;
   var lyric;
   var keyPlayListBelongTo;
+  var isDownloaded = false;
   // encode of playlist which included this song
   // If this song is result of a search event, keyPlayListBelongTo is 'searchResult'
   // else if this song in storage, key in time is 'offlineSong'
@@ -31,7 +32,6 @@ class Song {
       this.artists,
       this.category,
       this.coverImage,
-      this.isFavorite,
       this.lyrics,
       this.duration,
       this.hasLyric,

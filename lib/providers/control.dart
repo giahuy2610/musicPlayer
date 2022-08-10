@@ -202,6 +202,10 @@ class Control extends ChangeNotifier {
         this.currentPlayList_[temp != this.currentPlayList_.length ? temp : 0]);
   }
 
+  void download() {
+    //new MyHomePage().downloader(currentSong.songResource);
+  }
+
   void changePreviousSong() {
     var temp = this
             .currentPlayList_
