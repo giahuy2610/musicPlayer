@@ -27,3 +27,9 @@ Lazy load to save the network
 Easily to switch between Dark mode/Light mode
 Sleep timer to stop the player when sleep
 Included alarm
+
+###Future features
+Dark mode
+Alarm
+Notification player controler
+Lock screen player controler
